@@ -1,0 +1,37 @@
+# Keyless deploy: build -> Artifact Registry -> Cloud Run, via Workload Identity
+# Federation (mirror of the blog's own deploy workflow).
+name: deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/POOL/providers/github
+          service_account: DEPLOY_SA@YOUR_PROJECT.iam.gserviceaccount.com
+
+      - name: Build and push image
+        run: |
+          gcloud builds submit . \
+            --tag us-central1-docker.pkg.dev/YOUR_PROJECT/ai-images/llm-endpoint:${{ github.sha }}
+
+      - name: Deploy
+        run: |
+          gcloud run deploy llm-api \
+            --image=us-central1-docker.pkg.dev/YOUR_PROJECT/ai-images/llm-endpoint:${{ github.sha }} \
+            --region=us-central1 --project=YOUR_PROJECT --allow-unauthenticated

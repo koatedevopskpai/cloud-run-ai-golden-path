@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cloud-run-ai-golden-path"
+version = "0.1.0"
+description = "The blog's Cloud Run golden path packaged for AI: FastAPI LLM endpoint, Terraform + SLOs + burn alert, keyless CI."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = ["fastapi", "uvicorn", "pydantic>=2"]
+
+[project.optional-dependencies]
+dev = ["pytest", "httpx"]
+
+[tool.setuptools]
+packages = ["app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
