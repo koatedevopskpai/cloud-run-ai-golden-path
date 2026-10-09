@@ -1,5 +1,7 @@
 # cloud-run-ai-golden-path
 
+[![CI](https://img.shields.io/github/actions/workflow/status/koatedevopskpai/cloud-run-ai-golden-path/ci.yml?branch=main)](https://github.com/koatedevopskpai/cloud-run-ai-golden-path/actions) [coverage ≥80% enforced in CI]
+
 The blog's **Cloud Run golden path packaged for AI**: a Pydantic-validated
 **FastAPI LLM endpoint**, the **Terraform module** (runtime SA, Artifact
 Registry, scale-to-zero, availability + latency SLOs, 14.4× burn-rate alert)

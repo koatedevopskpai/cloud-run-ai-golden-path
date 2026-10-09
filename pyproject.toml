@@ -12,11 +12,11 @@ license = { text = "MIT" }
 dependencies = ["fastapi", "uvicorn", "pydantic>=2"]
 
 [project.optional-dependencies]
-dev = ["pytest", "httpx"]
+dev = ["pytest", "httpx", "pytest-cov>=4"]
 
 [tool.setuptools]
 packages = ["app"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q --cov=app --cov-fail-under=80 --cov-report=term:skip-covered"
